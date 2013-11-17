@@ -1,10 +1,8 @@
-require_relative 'client'
+require_relative 'response'
 require 'curb'
 
 module Butcher
   class Client
-
-    Response = Struct.new(:headers, :body)
 
     attr_reader :source
 
@@ -25,9 +23,7 @@ module Butcher
 
         raise ResourceNotFound if http.response_code == 404
 
-        headers = headers_from_response http
-
-        Response.new(headers, http.body_str)
+        Response.new(http.header_str, http.body_str)
 
       rescue Curl::Err::ConnectionFailedError => e
         raise "Can't connect to #{source}: #{e.message}"
@@ -46,11 +42,6 @@ module Butcher
 
     def build_url(path)
       "#{source}#{path}"
-    end
-
-    def headers_from_response(response)
-      http_headers = response.header_str.split(/[\r\n]+/).map(&:strip)
-      Hash[http_headers.flat_map { |s| s.scan(/^(\S+): (.+)/) } ]
     end
 
     def apply_headers(http, headers)

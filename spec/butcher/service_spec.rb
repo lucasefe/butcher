@@ -5,6 +5,7 @@ include Butcher
 describe Service do
   let(:service_class) do
     Class.new do
+
       include Service
 
       def path
@@ -19,6 +20,7 @@ describe Service do
         data = parse_json(response.body)
         data['beers']
       end
+
     end
   end
 
