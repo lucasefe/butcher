@@ -13,7 +13,8 @@ module Butcher
     def get(path, parameters = nil)
       parameters ||= {}
 
-      url = build_url(path)
+      url   = path.to_s if url?(path)
+      url ||= build_url(path)
 
       begin
         http = Curl.get(url, parameters) do |http|
@@ -39,6 +40,10 @@ module Butcher
     end
 
     private
+
+    def url?(path)
+      path.kind_of?(URI) || path =~ /http?\:/i
+    end
 
     def build_url(path)
       "#{source}#{path}"

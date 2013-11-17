@@ -1,3 +1,4 @@
+require 'webmock/rspec'
 require_relative "../lib/butcher"
 
 require 'vcr'
