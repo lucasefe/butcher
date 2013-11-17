@@ -38,6 +38,7 @@ describe Service do
   end
 
   context "being used" do
+
     context "#collection" do
 
       it "" do
@@ -51,9 +52,10 @@ describe Service do
       end
 
     end
+
     context "#resource" do
 
-      it "" do
+      it "by id" do
         service = service_class.new
         results = VCR.use_cassette('beers-satsuma') do
           service.resource("30.json")
@@ -65,5 +67,6 @@ describe Service do
       end
 
     end
+
   end
 end
