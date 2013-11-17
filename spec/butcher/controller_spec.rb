@@ -51,5 +51,19 @@ describe Service do
       end
 
     end
+    context "#resource" do
+
+      it "" do
+        service = service_class.new
+        results = VCR.use_cassette('beers-satsuma') do
+          service.resource("30.json")
+        end
+
+        expect(results).not_to be_nil
+        expect(results).not_to be_an Array
+        expect(results['name']).to eq('Satsuma')
+      end
+
+    end
   end
 end
